@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Pvirtech.QyRound.Views.FileDownloadView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+               xmlns:convert="clr-namespace:Pvirtech.QyRound.Converters"
+             xmlns:metro="http://metro.pvirtech.com/winfx/xaml/controls"
+             xmlns:prism="http://prismlibrary.com/" 
+             x:Name="filewindow"
+             mc:Ignorable="d"  Width="500" Height="250"
+             d:DesignHeight="300" d:DesignWidth="300" >
+    <UserControl.Resources>
+        <convert:FalseToVisibleConverter x:Key="falseVisible"/>
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadCmd}"  />
+        </i:EventTrigger> 
+    </i:Interaction.Triggers>
+    <Grid>
+        <Border  Margin="10,5,10,45"     BorderThickness="1" BorderBrush="#BCE8F1"     CornerRadius="5">
+            <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="42"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Background="#D9EDF7">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Model.TaskName}" FontSize="16" Foreground="#31708F" VerticalAlignment="Center" Margin="20,0,0,0"/>
+                            <TextBlock Text="--" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Model.RecordName}" FontSize="16" Foreground="#31708F" VerticalAlignment="Center" Margin="0,0,0,0"/>
+
+                        </StackPanel>
+                        <Button   Margin="0,0,20,0" IsEnabled="{Binding BtnIsEnable}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="80"  Content="开始导出" Style="{DynamicResource MetroFlatButton}"  Command="{Binding ScanDataCmd}"/>
+                    </Grid>
+                </Border>
+                <StackPanel Grid.Row="1" >
+                    <!--<StackPanel Orientation="Horizontal" Margin="15,0,0,0">
+                            <TextBlock Text="开始时间：" Margin="5,5,0,0"/>
+                            <TextBlock Text="{Binding Model.StartTimeText}" Margin="5,5,0,0"/>
+                        <TextBlock Text="结束时间：" Margin="5,5,0,0"/>
+                            <TextBlock Text="{Binding Model.EndTimeText}" Margin="5,5,0,0"/> 
+                        </StackPanel>-->
+                        <StackPanel Orientation="Horizontal" Margin="15,0,0,5">
+                        <TextBlock Text="开始帧号：" Margin="5,5,0,0" VerticalAlignment="Center"/>
+                            <metro:NumericUpDown Value="{Binding BeginIndex}" Minimum="0"  MinWidth="120" Maximum="{Binding MaxIndex}" Margin="5,5,0,0"/>
+                        <TextBlock Text="结束帧号：" Margin="5,5,0,0" VerticalAlignment="Center"/>
+                        <metro:NumericUpDown Value="{Binding EndIndex}" Minimum="0"  MinWidth="120" Maximum="{Binding MaxIndex}" Margin="5,5,0,0"/>
+                        </StackPanel> 
+                </StackPanel>
+                <Border BorderThickness="1"  BorderBrush="#D9EDF7" Grid.Row="2">
+                    <StackPanel >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding ProgressText}" Margin="20,20,0,0"/>
+                            <TextBlock Text="{Binding RateText}" Margin="5,20,0,0"/>
+                            <!--<TextBlock Text="{Binding TotalTime,StringFormat={}{0}秒}" Visibility="{Binding BtnIsEnable,Converter={StaticResource falseVisible}}" Margin="230,20,0,0" />-->
+                        </StackPanel>                      
+                        <metro:MetroProgressBar  Background="#C8EDF7" IsIndeterminate="False" Margin="20,5,20,20"   Value="{Binding ProgressValue}" Height="30" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+        <Button Margin="0,0,10,10" HorizontalAlignment="Right" Style="{DynamicResource MetroFlatButton}" VerticalAlignment="Bottom"   Content="关闭" Width="70" Height="28" Command="{Binding  CloseWindow}"   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"/>
+    </Grid>
+</UserControl>
